@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Appointment', type: :request do
+RSpec.describe 'Appointments', type: :request do
   describe 'POST /create' do
     let(:appointment) { build :appointment }
     context 'with valid parameters' do
