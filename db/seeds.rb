@@ -5,3 +5,15 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+require 'json'
+
+file = File.read(Rails.root.join('db', 'lib', 'realtors.json'))
+realtors = JSON.parse(file)
+
+realtors.each do |realtor|
+  realtor.transform_keys! { |key| key.to_sym }
+  realtor[:longitude] = realtor.delete(:lng)
+  realtor[:latitude] = realtor.delete(:lat)
+  Realtor.create(realtor)
+  puts "Created realtor #{realtor[:name]}"
+end
