@@ -1,4 +1,5 @@
 class Api::V1::AppointmentsController < ApplicationController
+  before_action :set_default_format
   rescue_from ActionController::ParameterMissing, with: :bad_request
   rescue_from ActionDispatch::Http::Parameters::ParseError, with: :bad_request
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
@@ -19,6 +20,10 @@ class Api::V1::AppointmentsController < ApplicationController
   end
 
   private
+
+  def set_default_format
+    request.format = :json
+  end
 
   def appointment_params
     params.require(:appointment).permit(:lat, :lng, :address, :time, seller: {})
