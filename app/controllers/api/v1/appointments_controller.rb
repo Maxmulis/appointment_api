@@ -8,7 +8,8 @@ class Api::V1::AppointmentsController < ApplicationController
       name: appointment_params[:seller][:name],
       phone: appointment_params[:seller][:phone],
     )
-    @appointment.realtor = Realtor.last
+    @realtor = Realtor.first
+    @appointment.realtor = @realtor
     render status: :created
   end
 

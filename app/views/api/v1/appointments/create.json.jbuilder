@@ -9,6 +9,6 @@ json.seller do
 end
 
 json.realtor do
-  json.name @appointment.realtor.name
-  json.city @appointment.realtor.city
+  json.name @realtor.name
+  json.city @realtor.city
 end
