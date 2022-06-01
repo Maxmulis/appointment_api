@@ -3,6 +3,7 @@ class Api::V1::AppointmentsController < ApplicationController
   rescue_from ActionController::ParameterMissing, with: :bad_request
   rescue_from ActionDispatch::Http::Parameters::ParseError, with: :bad_request
   rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
+  rescue_from NoMethodError, with: :bad_request
 
   def create
     @appointment = Appointment.new(
