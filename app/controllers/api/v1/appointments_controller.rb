@@ -1,4 +1,8 @@
 class Api::V1::AppointmentsController < ApplicationController
+  rescue_from ActionController::ParameterMissing, with: :bad_request
+  rescue_from ActionDispatch::Http::Parameters::ParseError, with: :bad_request
+  rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
+
   def create
     @appointment = Appointment.new(
       latitude: appointment_params[:lat],
@@ -10,6 +14,7 @@ class Api::V1::AppointmentsController < ApplicationController
     )
     @realtor = Realtor.closest_to([@appointment.latitude, @appointment.longitude])
     @appointment.realtor = @realtor
+    @appointment.save!
     render status: :created
   end
 

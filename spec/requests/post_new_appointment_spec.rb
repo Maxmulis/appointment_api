@@ -13,7 +13,7 @@ RSpec.describe 'Appointments', type: :request do
                             "lat": appointment.latitude,
                             "lng": appointment.longitude,
                             "address": appointment.address,
-                            "time": appointment.time.sunday.noon + 3,
+                            "time": (appointment.time.sunday + 3).noon,
                             "seller":
                               {
                                 "name": appointment.name,
@@ -26,7 +26,7 @@ RSpec.describe 'Appointments', type: :request do
         expect(json["lat"]).to eq(appointment.latitude)
         expect(json["lng"]).to eq(appointment.longitude)
         expect(json["address"]).to eq(appointment.address)
-        expect(json["time"]).to eq((appointment.time.sunday.noon + 3).strftime("%d/%m/%Y %H:%M"))
+        expect(json["time"]).to eq((appointment.time.sunday.+ 3).noon.strftime("%d/%m/%Y %H:%M"))
         expect(json["seller"]["name"]).to eq(appointment.name)
         expect(json["seller"]["phone"]).to eq(appointment.phone)
       end
@@ -72,10 +72,6 @@ RSpec.describe 'Appointments', type: :request do
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
       end
-
-      it 'returns the detailed error message' do
-        expect(json["errors"]).to include(a_hash_including("details" => "must be between 8am and 6pm"))
-      end
     end
 
     context 'on Sunday' do
@@ -96,10 +92,6 @@ RSpec.describe 'Appointments', type: :request do
 
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'returns the detailed error message' do
-        expect(json["errors"]).to include(a_hash_including("details" => "must be on a weekday (MON-FRI)"))
       end
     end
 
@@ -122,11 +114,6 @@ RSpec.describe 'Appointments', type: :request do
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
       end
-
-      it 'returns the detailed error message' do
-        expect(json["errors"]).to include(a_hash_including("details" => "must be at least 48 hours in the future (weekends do not count)"))
-      end
     end
-
   end
 end

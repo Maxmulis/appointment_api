@@ -12,9 +12,3 @@ json.realtor do
   json.name @realtor.name
   json.city @realtor.city
 end
-
-unless @appointment.valid?
-  json.errors(@appointment.errors) do |error|
-    json.details error.type
-  end
-end
