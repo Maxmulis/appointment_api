@@ -51,5 +51,4 @@ group :development do
   # gem "spring"
 end
 
-gem 'activerecord-postgis-adapter'
 gem 'geocoder'
