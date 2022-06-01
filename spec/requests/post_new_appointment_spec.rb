@@ -114,7 +114,10 @@ RSpec.describe 'Appointments', type: :request do
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
       end
-    end
 
+      it 'returns the detailed error message' do
+        expect(json["errors"]).to include(a_hash_including("details" => "must be at least 48 hours in the future (weekends do not count)"))
+      end
+    end
   end
 end
