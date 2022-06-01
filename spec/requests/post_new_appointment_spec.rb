@@ -60,7 +60,7 @@ RSpec.describe 'Appointments', type: :request do
                             "lat": appointment.latitude,
                             "lng": appointment.longitude,
                             "address": appointment.address,
-                            "time": "30/05/2022 18:30",
+                            "time": (appointment.time.sunday.noon + 3).midnight,
                             "seller":
                               {
                                 "name": appointment.name,
@@ -71,6 +71,10 @@ RSpec.describe 'Appointments', type: :request do
 
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns the detailed error message' do
+        expect(json["errors"]).to include(a_hash_including("details" => "must be between 8am and 6pm"))
       end
     end
 
@@ -93,6 +97,10 @@ RSpec.describe 'Appointments', type: :request do
       it 'returns an unprocessable entity status' do
         expect(response).to have_http_status(:unprocessable_entity)
       end
+
+      it 'returns the detailed error message' do
+        expect(json["errors"]).to include(a_hash_including("details" => "must be on a weekday (MON-FRI)"))
+      end
     end
 
     context 'less than 48 hours in the future' do
@@ -102,7 +110,7 @@ RSpec.describe 'Appointments', type: :request do
                             "lat": appointment.latitude,
                             "lng": appointment.longitude,
                             "address": appointment.address,
-                            "time": appointment.time.next_weekday.noon, # assures that date is neither on a weekend nor during work hours
+                            "time": appointment.time.next_weekday.noon,
                             "seller":
                               {
                                 "name": appointment.name,
@@ -119,5 +127,6 @@ RSpec.describe 'Appointments', type: :request do
         expect(json["errors"]).to include(a_hash_including("details" => "must be at least 48 hours in the future (weekends do not count)"))
       end
     end
+
   end
 end
