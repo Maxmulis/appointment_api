@@ -5,6 +5,6 @@ FactoryBot.define do
     address { 'Prinzessinnenstraße 26, 10969 Berlin' }
     name { 'Alexander Schmitt' }
     phone { '+498005800550' }
-    time { '02/12/2021 10:00' }
+    time { Date.current }
   end
 end

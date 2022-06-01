@@ -2,6 +2,6 @@ class Appointment < ApplicationRecord
   belongs_to :realtor
 
   def strftime
-    time.strftime("%e/%d/%Y %H:%M")
+    time.strftime("%d/%m/%Y %H:%M")
   end
 end
