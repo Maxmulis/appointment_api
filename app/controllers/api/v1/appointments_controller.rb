@@ -8,7 +8,7 @@ class Api::V1::AppointmentsController < ApplicationController
       name: appointment_params[:seller][:name],
       phone: appointment_params[:seller][:phone],
     )
-    @realtor = Realtor.first
+    @realtor = Realtor.closest_to([@appointment.latitude, @appointment.longitude])
     @appointment.realtor = @realtor
     render status: :created
   end
