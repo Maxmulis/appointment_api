@@ -74,6 +74,27 @@ RSpec.describe 'Appointments', type: :request do
       end
     end
 
+    context 'on Saturday' do
+      before do
+        post '/api/v1/appointments', headers: @headers, params:
+                          { "appointment": {
+                            "lat": appointment.latitude,
+                            "lng": appointment.longitude,
+                            "address": appointment.address,
+                            "time": appointment.time.sunday.noon - 1,
+                            "seller":
+                              {
+                                "name": appointment.name,
+                                "phone": appointment.phone
+                              }
+                          } }
+      end
+
+      it 'returns an unprocessable entity status' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+
     context 'on Sunday' do
       before do
         post '/api/v1/appointments', headers: @headers, params:
