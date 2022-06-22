@@ -13,7 +13,7 @@ class Api::V1::AppointmentsController < ApplicationController
     realtor = Realtor.closest_to([appointment.lat, appointment.lng])
     appointment.realtor = realtor
     appointment.save!
-    render json: appointment, include: [ :realtor, :seller ], status: :created
+    render json: appointment, status: :created
   end
 
   private

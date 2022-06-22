@@ -4,10 +4,6 @@ class Appointment < ApplicationRecord
   validate :min_48_hours_in_the_future, :on_weekday, :during_work_hours
   validates :lat, :lng, :address, :time, presence: true
 
-  def strftime
-    time.strftime("%d/%m/%Y %H:%M")
-  end
-
   def min_48_hours_in_the_future
     if time < DateTime.current.next_weekday + 1
       errors.add(:time, "must be at least 48 hours in the future (weekends do not count)")

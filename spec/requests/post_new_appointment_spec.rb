@@ -13,7 +13,7 @@ RSpec.describe 'Appointments', type: :request do
                             "lat": appointment.lat,
                             "lng": appointment.lng,
                             "address": appointment.address,
-                            "time": (appointment.time.sunday + 3).noon,
+                            "time": (DateTime.current.sunday + 3).noon.strftime("%d/%m/%Y %H:%M"),
                             "seller":
                               {
                                 "name": appointment.name,
@@ -26,7 +26,7 @@ RSpec.describe 'Appointments', type: :request do
         expect(json["lat"]).to eq(appointment.lat)
         expect(json["lng"]).to eq(appointment.lng)
         expect(json["address"]).to eq(appointment.address)
-        expect(json["time"]).to eq((appointment.time.sunday.+ 3).noon.strftime("%d/%m/%Y %H:%M"))
+        expect(json["time"]).to eq((DateTime.current.sunday + 3).noon.strftime("%d/%m/%Y %H:%M"))
         expect(json["seller"]["name"]).to eq(appointment.name)
         expect(json["seller"]["phone"]).to eq(appointment.phone)
       end
