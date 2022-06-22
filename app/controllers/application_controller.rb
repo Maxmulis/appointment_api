@@ -17,5 +17,16 @@ class ApplicationController < ActionController::API
     render json: { errors: invalid.record.errors }, status: :unprocessable_entity
   end
 
+  def appointment_params
+     p = params.require(:appointment).permit(:lat, :lng, :address, :time, seller: {})
+     p.delete("seller")
+     return p
+  end
+
+  def seller_params
+    p = params.require(:appointment).permit(:lat, :lng, :address, :time, seller: {})
+    return p["seller"]
+
+  end
 
 end

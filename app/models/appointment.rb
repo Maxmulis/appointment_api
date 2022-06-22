@@ -1,7 +1,8 @@
 class Appointment < ApplicationRecord
   belongs_to :realtor
+  belongs_to :seller
   validate :min_48_hours_in_the_future, :on_weekday, :during_work_hours
-  validates :latitude, :longitude, :address, :time, :name, :phone, presence: true
+  validates :lat, :lng, :address, :time, presence: true
 
   def strftime
     time.strftime("%d/%m/%Y %H:%M")
