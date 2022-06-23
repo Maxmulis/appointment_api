@@ -10,10 +10,10 @@ RSpec.describe 'Appointments', type: :request do
       before do
         post '/api/v1/appointments', headers: @headers, params:
                           { "appointment": {
-                            "lat": appointment.latitude,
-                            "lng": appointment.longitude,
+                            "lat": appointment.lat,
+                            "lng": appointment.lng,
                             "address": appointment.address,
-                            "time": (appointment.time.sunday + 3).noon,
+                            "time": (DateTime.current.sunday + 3).noon.strftime("%d/%m/%Y %H:%M"),
                             "seller":
                               {
                                 "name": appointment.name,
@@ -23,10 +23,10 @@ RSpec.describe 'Appointments', type: :request do
       end
 
       it 'returns all data passed in the request' do
-        expect(json["lat"]).to eq(appointment.latitude)
-        expect(json["lng"]).to eq(appointment.longitude)
+        expect(json["lat"]).to eq(appointment.lat)
+        expect(json["lng"]).to eq(appointment.lng)
         expect(json["address"]).to eq(appointment.address)
-        expect(json["time"]).to eq((appointment.time.sunday.+ 3).noon.strftime("%d/%m/%Y %H:%M"))
+        expect(json["time"]).to eq((DateTime.current.sunday + 3).noon.strftime("%d/%m/%Y %H:%M"))
         expect(json["seller"]["name"]).to eq(appointment.name)
         expect(json["seller"]["phone"]).to eq(appointment.phone)
       end
@@ -57,8 +57,8 @@ RSpec.describe 'Appointments', type: :request do
       before do
         post '/api/v1/appointments', headers: @headers, params:
                           { "appointment": {
-                            "lat": appointment.latitude,
-                            "lng": appointment.longitude,
+                            "lat": appointment.lat,
+                            "lng": appointment.lng,
                             "address": appointment.address,
                             "time": (appointment.time.sunday.noon + 3).midnight,
                             "seller":
@@ -78,8 +78,8 @@ RSpec.describe 'Appointments', type: :request do
       before do
         post '/api/v1/appointments', headers: @headers, params:
                           { "appointment": {
-                            "lat": appointment.latitude,
-                            "lng": appointment.longitude,
+                            "lat": appointment.lat,
+                            "lng": appointment.lng,
                             "address": appointment.address,
                             "time": appointment.time.sunday.noon,
                             "seller":
@@ -99,8 +99,8 @@ RSpec.describe 'Appointments', type: :request do
       before do
         post '/api/v1/appointments', headers: @headers, params:
                           { "appointment": {
-                            "lat": appointment.latitude,
-                            "lng": appointment.longitude,
+                            "lat": appointment.lat,
+                            "lng": appointment.lng,
                             "address": appointment.address,
                             "time": appointment.time.next_weekday.noon,
                             "seller":
